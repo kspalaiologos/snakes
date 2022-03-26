@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <signal.h>
 
 #define board(x) int x[16][32]
 
@@ -28,6 +29,8 @@ int bot(board(b), int player) {
 
 #undef bot
 #undef bot_name
+
+volatile int turn = 0;
 
 /* Naive flood fill; returns the amount of space filled and whether
    the operation was lethal to the other player. The board is relatively
@@ -86,7 +89,9 @@ int play() {
         // Print the game status info.
         displayBoard(b, ticks, p1X, p1Y, p2X, p2Y);
         // Process player X move first.
+        turn = 'X';
         char player1_move = query_player1_move(b, 'X');
+        turn = 0;
         b[p1Y][p1X] = 'X';
         switch(player1_move) {
             case 'U':
@@ -140,7 +145,9 @@ int play() {
                 }
         p1_end:;
         // Process player O move.
+        turn = 'O';
         char player2_move = query_player2_move(b, 'O');
+        turn = '0';
         b[p2Y][p2X] = 'O';
         switch(player2_move) {
             case 'U':
@@ -212,6 +219,24 @@ int play() {
         return 0;
 }
 
+void sig_handler(int signo) {
+    if(turn == 0) {
+        printf("Internal error in host code.\n");
+        exit(2);
+    } else if(turn == 'X') {
+        printf("Signal %d caught while bot X was processing its turn. X loses.", signo);
+        exit(1);
+    } else if(turn == 'O') {
+        printf("Signal %d caught while bot O was processing its turn. O loses.", signo);
+        exit(-1);
+    }
+}
+
 int main(void) {
-    printf("Final score: %d\n", play());
+    signal(SIGFPE, sig_handler); signal(SIGBUS, sig_handler);
+    signal(SIGILL, sig_handler); signal(SIGSEGV, sig_handler);
+
+    int n = play();
+    printf("Final score: %d\n", n);
+    return n;
 }
