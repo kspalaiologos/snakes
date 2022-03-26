@@ -21,7 +21,7 @@ territory, it loses instantly.
 
 ## APIs
 
-The code must not interfere with the event host, the opposing bot and may not declare, read or write global variables or explicitly modify the board.
+The code must not interfere with the event host, the opposing bot and may not declare, read or write global variables (except the ones defined by the C standard) or explicitly modify the board.
 Any signal sent by the bot (SIGSEGV, SIGFPE) counts as a loss for the said bot.
 
 Create a function called `bot` which takes a 2-D, 32x16 array of characters as it's input representing the board
