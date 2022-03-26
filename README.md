@@ -25,7 +25,7 @@ The code must not interfere with the event host and may not declare, read or wri
 Any signal sent by the bot (SIGSEGV, SIGFPE) counts as a loss for the said bot.
 
 Create a function called `bot` which takes a 2-D, 32x16 array of characters as it's input representing the board
-and the character it plays. Return either 'L', 'R', 'U', or 'D' (as a string or character constant).
+and the character it plays. Return either 'L', 'R', 'U', or 'D'.
 Define a string constant containing the name of your bot:
 
 ```c
