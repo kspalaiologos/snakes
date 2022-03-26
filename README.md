@@ -19,7 +19,7 @@ are considered respective player's territories. When a bot creates a closed curv
 walls and the territory, the interior of it is marked as its territory. If the enemy bot was present inside of this
 territory, it loses instantly.
 
-=== APIs ===
+## APIs
 
 The code must not interfere with the event host and may not declare, read or write global variables or explicitly modify the board.
 Any signal sent by the bot (SIGSEGV, SIGFPE) counts as a loss for the said bot.
@@ -36,7 +36,7 @@ int bot(int board[16][32], char player) {
 char * bot_name = ...;
 ```
 
-=== Examples ===
+## Examples
 
 `random_vs_random.txt` contains a log printed by the host while playing a game of two bots making random moves.
 
